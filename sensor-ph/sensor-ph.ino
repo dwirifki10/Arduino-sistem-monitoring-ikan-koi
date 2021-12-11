@@ -8,7 +8,7 @@
 #include <DallasTemperature.h>
 #include <OneWire.h>
 
-#define ONE_WIRE_BUS 4  // D1 pin of ESP8266
+#define ONE_WIRE_BUS 4  // D2 pin of ESP8266
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire); 

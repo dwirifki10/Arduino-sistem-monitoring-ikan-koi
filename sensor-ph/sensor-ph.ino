@@ -21,8 +21,8 @@ int nilai_analog_PH;
 double TeganganPh;
 
 // variables for hostspot
-const char *ssid = "";  // name wifi
-const char *password = ""; // pass wifi 
+const char *ssid = "Controller";  // name wifi
+const char *password = "dwirifki24116"; // pass wifi 
 
 
 // for sensor ph calibration 

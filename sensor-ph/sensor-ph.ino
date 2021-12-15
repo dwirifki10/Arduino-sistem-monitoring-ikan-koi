@@ -20,9 +20,17 @@ float PH_step;
 int nilai_analog_PH;
 double TeganganPh;
 
+//variable for temperature sensor
+float suhu;
+
 // variables for hostspot
 const char *ssid = "Controller";  // name wifi
 const char *password = "dwirifki24116"; // pass wifi 
+
+
+// variable url and data for API
+const char *urlAPI = "https://server.hens.my.id/api/v1/sensor";
+String postData; 
 
 
 // for sensor ph calibration 
@@ -79,6 +87,7 @@ void loop()
 
 void sendData()
 {
+  // get attribute for ph sensor
   nilai_analog_PH = analogRead(ph_Pin);
   Serial.print("Nilai ADC Ph : ");
   Serial.println(nilai_analog_PH);
@@ -86,13 +95,32 @@ void sendData()
   Serial.print("Tegangan Ph : ");
   Serial.println(TeganganPh, 3);
 
+  // get data ph
   PH_step = (PH4 - PH7) / 3;
   Po = 7.00 + ((PH7 - TeganganPh) / PH_step);
   Serial.print("Nilai PH cairan : ");
   Serial.println(Po, 2);
 
+  // get data temperature
   sensors.requestTemperatures();
+  suhu = sensors.getTempCByIndex(0);
   Serial.print("Nilai Temperature : ");
-  Serial.println(sensors.getTempCByIndex(0)); 
+  Serial.println(suhu); 
+
+  // send data to API
+  postData = (String)"suhu=" + suhu  + "&ph=" + Po; 
+  
+  HTTPClient http;
+  http.begin(urlAPI);            
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");  
+
+  int httpCode = http.POST(postData);   
+  String payload = http.getString();
+
+  Serial.println(postData); 
+  Serial.println(payload);  
+  
+  http.end(); 
+  
   delay(3000);
 }

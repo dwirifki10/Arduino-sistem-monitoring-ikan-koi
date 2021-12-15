@@ -29,9 +29,9 @@ const char *password = "dwirifki24116"; // pass wifi
 
 
 // variable url and data for API
-const char *urlAPI = "https://server.hens.my.id/api/v1/sensor";
+const char *urlAPI = "http://server.hens.my.id/api/v1/sensor";
 String postData; 
-
+String payload;
 
 // for sensor ph calibration 
 float PH4 = 3.226;
@@ -67,21 +67,14 @@ void setup()
 
 void loop()
 {
-  if (Serial.available()){
-    int i = 0;
-    while(true){
-      // displaying number
-      Serial.print("No : ");
-      Serial.println(i + 1);
-      // call method sendData
-      sendData();
-      i++;
-      // delay for 30 seconds if i in mod 4 == 0      
-      if(i % 4 == 0){
-        Serial.println("Sleep for 30s, waiting for the next request");
-        delay(30000);
-      }
-    }  
+   int i = 0;
+   while(true){
+     // displaying number
+     Serial.print("No : ");
+     Serial.println(i + 1);
+     // call method sendData
+     sendData();
+     i++;  
   }
 }
 
@@ -115,12 +108,12 @@ void sendData()
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");  
 
   int httpCode = http.POST(postData);   
-  String payload = http.getString();
+  payload = http.getString();
 
   Serial.println(postData); 
-  Serial.println(payload);  
+  Serial.println(payload);
+   
+  http.end();  
   
-  http.end(); 
-  
-  delay(3000);
+  delay(10000);
 }

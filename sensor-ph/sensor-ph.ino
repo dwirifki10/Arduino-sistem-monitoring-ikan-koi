@@ -1,8 +1,10 @@
 // libraries for connection to API
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h> 
+#include <WiFiClient.h>                                                                                                                                                                                                                                                                                                     
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
+WiFiClient wifiClient;
+
 
 // libraries for celcius sensor
 #include <DallasTemperature.h>
@@ -24,8 +26,8 @@ double TeganganPh;
 float suhu;
 
 // variables for hostspot
-const char *ssid = "Controller";  // name wifi
-const char *password = "dwirifki24116"; // pass wifi 
+const char *ssid = "Dazai";  // name wifi
+const char *password = "walawiliwele"; // pass wifi 
 
 
 // variable url and data for API
@@ -104,7 +106,7 @@ void sendData()
   postData = (String)"suhu=" + suhu  + "&ph=" + Po; 
   
   HTTPClient http;
-  http.begin(urlAPI);            
+  http.begin(wifiClient,urlAPI);            
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");  
 
   int httpCode = http.POST(postData);   
